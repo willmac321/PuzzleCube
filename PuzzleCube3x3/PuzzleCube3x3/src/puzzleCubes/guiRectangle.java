@@ -6,35 +6,39 @@ import javax.swing.JPanel;
 
 import java.awt.*;
 
+
 public class guiRectangle extends JPanel implements MouseListener{
 	private Color colors[]=
 			new Color[] {Color.red, Color.blue, Color.white, Color.green, Color.orange, Color.yellow};
 
 	private Color color;
 	private int intColor;
-	private JPanel panel;	
+	private JPanel panel;
+	private int faceNumber;
+	private int indexNumber;
 	
-	public guiRectangle(int height, int width, Color color) {
+	public guiRectangle(int height, int width, Color color, int f, int i) {
 		this.color = color;
 		
+		faceNumber=f;
+		indexNumber=i;
 		
-		panel = new JPanel();
-		//panel.setSize(width,height);
-		panel.addMouseListener(this);
-		panel.setMinimumSize(new Dimension(width,height));
+		addMouseListener(this);
+
 		setColor(color);
-		this.add(panel);
+
 	}
 	
 	public void setColor(Color c) {
-		
-		for (int co=0;co<colors.length;co++) {
-			if(colors[co]==c) {
-				color=colors[co];
-				intColor=co;
+	
+			for (int co=0;co<colors.length;co++) {
+				if(colors[co]==c) {
+					color=colors[co];
+					intColor=co;
+				}
 			}
-		}
-		panel.setBackground(color);
+	
+		this.setBackground(color);
 		
 		
 	}
@@ -49,6 +53,14 @@ public class guiRectangle extends JPanel implements MouseListener{
 		}
 	return colors[intColor];
 	
+	}
+	
+	protected int getIndexNum() {
+		return indexNumber;
+	}
+	
+	protected int getFaceNum() {
+		return faceNumber;
 	}
 
 	public void mouseClicked(MouseEvent event) {
@@ -79,33 +91,5 @@ public class guiRectangle extends JPanel implements MouseListener{
 		
 	}
 	
-	/*	 public void paintComponent(Graphics g) {
-	 
-	super.paintComponent(g);
-	
-	
-	//for (int i=0; i<6; i++) {
-		//panels[i]=new JPanel();
-		//for (int r=1;r<4;r++) {
-			//for(int c=1;c<4;c++) {
-	
-				Graphics2D g2 =  (Graphics2D)g;
-				//for (Shape item:shapeList) {
-					Rectangle2D rect = new Rectangle2D.Float(0,0,width,height);
-					
-					g2.setColor(color);
-					g2.fill(rect);
-					
-	
-					//}
-					//rect.addActionListener(listen);
-
-					//g2.draw(rect);
-					
-					
-				//}
-			//}
-
-	}
-*/
 }
+

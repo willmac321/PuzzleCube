@@ -1,10 +1,13 @@
 package puzzleCubes;
 import java.util.*;
-public class Test {
+public class CubeMain {
 
-	public static void main(String[] args) {
-		
-		
+	    /*
+		 * 0,1,2
+		 * 3,4,5
+		 * 6,7,8
+		 */
+		public static void main(String[] args) {
 		
 		char[][] test = new char[6][];
 		
@@ -13,12 +16,16 @@ public class Test {
 		 
 		//char[][] arrTopFace = 1
 		test[1]=new char[]{'r','r','r','r','r','r','r','r','r'};
+		//test[1]=new char[]{'g','g','g','r','r','r','b','b','b'};
 		//char[][] arrRightFace = 2
-		test[2]=(new char[]{'g','g','g','g','g','g','g','g','g'});
+		test[2]=new char[]{'g','g','g','g','g','g','g','g','g'};
+		//test[2]=(new char[]{'r','g','o','r','g','o','r','g','o'});
 		//char[][] arrBotFace =3
 		test[3]=new char[]{'o','o','o','o','o','o','o','o','o'};
+		//test[3]=new char[]{'g','g','g','o','o','o','b','b','b'};
 		//char[][]  arrLeftFace = 4
-		test[4] = new char[]{'b','b','b','b','b','b','b','b','b'};
+		test[4]=new char[]{'b','b','b','b','b','b','b','b','b'};
+		//test[4] = new char[]{'r','b','o','r','b','o','r','b','o'};
 		//char[][] arrBackFace = 5
 		test[5]=new char[]{'y','y','y','y','y','y','y','y','y'};
 		//Face front = new Face(arrFrontFace);
@@ -28,57 +35,46 @@ public class Test {
 		System.out.print("BackRows\n");
 		System.out.print(cube.showBackRows());
 		System.out.print(cube.toString());
-		//cube.rotateFaceCCW();
-		//System.out.print(cube.toString());
-		cube.rotateFaceCW();
-		System.out.println("rotate CW");
-		System.out.print(cube.showFrontRows());
-		System.out.print("BackRows\n");
-		System.out.print(cube.showBackRows());
-		System.out.print(cube.toString());
-
 		
-		cube.turnDown();
-		System.out.println("turn down");
+	    cube.rotateFaceCW();
+		 
+		cube.turnUp();
+
+		cube.rotateFaceCW();
+		System.out.println("front is back");
 		System.out.print(cube.showFrontRows());
 		System.out.print("BackRows\n");
 		System.out.print(cube.showBackRows());
+		System.out.print("RightRows\n");
+		System.out.print(cube.showRightRows());
 		System.out.print(cube.toString());
-		cube.rotateFaceCW();
-		System.out.println("rotate CW");
-		System.out.print(cube.showFrontRows());
-		System.out.print(cube.toString());
+				
 		cube.turnRight();
-		System.out.println("turn right");
+		cube.turnDown();
+		cube.turnRight();
+
+		cube.turnRight();
+
+		cube.rotateFaceCW();
+
+		cube.rotateFaceCCW();
+		cube.turnLeft();
+		cube.turnLeft();
+		cube.turnUp();
+		cube.turnLeft();
+		cube.rotateFaceCCW();
+		cube.turnDown();
+		cube.rotateFaceCCW();		
+		
+		System.out.println("back to normal");
 		System.out.print(cube.showFrontRows());
 		System.out.print("BackRows\n");
 		System.out.print(cube.showBackRows());
 		System.out.print(cube.toString());
 		
-
-		//CubeDisplay cubeDisp = new CubeDisplay(0,0);
+		CubeDisplay cubeDisp = new CubeDisplay(cube);
 		
-		//Cube cube = new Cube();
-		//cubeDisp.createAndShowGui();
-		
-		/*
-		for( int i=0;i<4;i++) {
-			for (int r=-3; r<4;r++) {
-				int t=r;
-				if (r<0) {
-					
-					r=4+r;
-				}
-				int l = i+Math.abs((r-1)%3+1);
-				if(l>=4) {
-					l=l-4;
-				}
-				System.out.println("rotation is: "+t+" index is: "+i+"; i+abs(r-1)%3+1="+l);
-				r=t;
-			}
-		}
-		*/
-		
+		cubeDisp.createAndShowGui();
 		
 	}
 

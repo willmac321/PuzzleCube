@@ -1,22 +1,26 @@
 package puzzleCubes;
 
+import java.awt.Color;
+
 public class Face {
 
 	private CornerPiece bl, br, tr,  tl;
 	private SidePiece b,r,t,l;
 	private CenterPiece m;
 	private Piece[] topRow, botRow, leftRow, rightRow;
-	
-	public Face()
+	private Piece[] front;
+	private int cR, cW, cG, cO, cB, cY;
+	protected Face()
 	{
 		topRow= null;
 		botRow=null;
 		leftRow=null;
 		rightRow=null;
+		front= null;
 	}
 	
 	
-	public Face( char[] front, char[] top, char[] right, char[] bot, char[] left) {
+	protected Face( char[] front, char[] top, char[] right, char[] bot, char[] left) {
 		tl= new CornerPiece(front[0], top[6], left[2]) ; //front top side
 		tr = new CornerPiece(front[2], right[0], top[8]);
 		bl = new CornerPiece(front[6],left[8],bot[0] );
@@ -32,7 +36,7 @@ public class Face {
 		setRows();
 	}
 	
-	public Face(CornerPiece bl, CornerPiece br, CornerPiece tr, CornerPiece tl, SidePiece b, SidePiece r, SidePiece t,
+	protected Face(CornerPiece bl, CornerPiece br, CornerPiece tr, CornerPiece tl, SidePiece b, SidePiece r, SidePiece t,
 			SidePiece l, CenterPiece m) {
 		super();
 		this.bl = bl;
@@ -47,12 +51,11 @@ public class Face {
 		setRows();
 	}
 
-
 	/**
 	 * Start on bottom left and go ccw
 	 * @param rot int for ccw 
 	 */
-	public Face rotateFace(int rot) {
+	protected Face rotateFace(int rot) {
 		Face rv = new Face();
 		for(int i =0; i<rot;i++) {
 			
@@ -68,72 +71,114 @@ public class Face {
 			l=t;
 			t=r;
 			r=sideTemp;
+			setRows();
 		}
 		
-		setRows();
+		
 		rv.setFace(this);
 		//middle.rotateMiddlePiece(rot);
 		//orientation=middle.getOrientation();
 		return rv;
 	}
 	
-	public void changeBotRow(Piece[] botRow) {
+	protected void changeBotRow(Piece[] botRow) {
 		tl=(CornerPiece) botRow[0];
 		t=(SidePiece) botRow[1];
 		tr=(CornerPiece) botRow[2];
 		setRows();
 	}
-	public void changeRightRow(Piece[] botRow) {
+	protected void changeRightRow(Piece[] botRow) {
 		tl=(CornerPiece) botRow[2];
 		l=(SidePiece) botRow[1];
 		bl=(CornerPiece) botRow[0];
 		setRows();
 	}
-	public void changeLeftRow(Piece[] botRow) {
+	protected void changeLeftRow(Piece[] botRow) {
 		tr=(CornerPiece) botRow[2];
 		r=(SidePiece) botRow[1];
 		br=(CornerPiece) botRow[0];
 		setRows();
 	}
-	public void changeTopRow(Piece[] botRow) {
+	protected void changeTopRow(Piece[] botRow) {
 		bl=(CornerPiece) botRow[2];
 		b=(SidePiece) botRow[1];
 		br=(CornerPiece) botRow[0];
 		setRows();
 	}
-	public void setRows() {
+	protected void setRows() {
 		
 		topRow=new Piece[] {tl.translateCornerPiece(), t.translateSide(), tr.translateCornerPiece().translateCornerPiece()};
-		rightRow = new Piece[] {tr.translateCornerPiece(), r.translateSide(), br.translateCornerPiece().translateCornerPiece()};
+		rightRow = new Piece[] {br.translateCornerPiece().translateCornerPiece(), r.translateSide(), tr.translateCornerPiece()};
 		botRow = new Piece[] {bl.translateCornerPiece().translateCornerPiece(), b.translateSide(), br.translateCornerPiece()};
-		leftRow = new Piece[] { tl.translateCornerPiece().translateCornerPiece() , l.translateSide(), bl.translateCornerPiece()};
+		leftRow = new Piece[] { bl.translateCornerPiece() , l.translateSide(), tl.translateCornerPiece().translateCornerPiece()};
+		setPieceArray();
+		setColorCount();
+	}
+		
+	private void setPieceArray() {
+		front = new Piece[] {tl,t,tr,l,m,r,bl,b,br};
+	}
+	
+	private void setColorCount() {
+		cW=0;
+		cO=0;
+		cR=0;
+		cG=0;
+		cB=0;
+		cY=0;
+	
+		for (Piece piece:front) {
+			switch(piece.getFront()) {
+			case 'w':
+				cW++;
+				break;
+			case 'o':
+				cO++;
+				break;
+			case 'r':
+				cR++;
+				break;
+			case 'g':
+				cG++;
+				break;
+			case 'b':
+				cB++;
+				break;
+			case 'y':
+				cY++;
+				break;
+			
+			}
+		}
 		
 	}
 	
-	public void flipFace() {
+	public int[] getColorCount() {
 		
-		Piece[] temp = topRow;
-		rotateFace(2);
-		
+		int[] rv = {cW,cO,cR,cG,cB,cY};
+		return rv;
 	}
-	
-	public Piece[] getTopRow() {
+	protected Piece[] getTopRow() {
 		return topRow;
 	}
 
-	public Piece[] getBotRow() {
+	protected Piece[] getBotRow() {
 		return botRow;
 	}
 
-	public Piece[] getLeftRow() {
+	protected Piece[] getLeftRow() {
 		return leftRow;
 	}
 
-	public Piece[] getRightRow() {
+	protected Piece[] getRightRow() {
 		return rightRow;
 	}
-	
-	public char[][] getFaceColors() {
+
+	protected void setColor(char c, int index) {
+		front[index].setFrontColor(c);
+		setRows();
+	}
+	protected char[][] getFaceColors() {
 		
 		return new char[][] {{tl.getFront(), t.getFront(), tr.getFront()},
 			{l.getFront(), m.getFront(), r.getFront()},
@@ -172,7 +217,7 @@ public class Face {
 		return this;
 	}
 	
-	public void setFace(Face face) {
+	protected void setFace(Face face) {
 		
 		this.bl = new CornerPiece(face.bl);
 		this.br = new CornerPiece(face.br);
