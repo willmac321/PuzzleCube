@@ -24,13 +24,13 @@ public class Cube implements CubeInterface{
 	}
 	
 	@Override
-	public int rotateFaceCW() {
-		return rotateFaceCounterClockWise(3);
+	public void rotateFaceCW() {
+		rotateFaceCounterClockWise(3);
 	}
 
 	@Override
-	public int rotateFaceCCW() {
-		return rotateFaceCounterClockWise(1);
+	public void rotateFaceCCW() {
+		 rotateFaceCounterClockWise(1);
 	}
 	
 	private int rotateFaceCounterClockWise(int rotations) {
@@ -89,7 +89,7 @@ public class Cube implements CubeInterface{
 			int i=0;
 			for(int c:temp) {
 				count[i]+=c;
-				if(count[i]>10 || count[i]<0) {
+				if(count[i]>9 || count[i]<0) {
 					rv=false;
 					
 				}
@@ -189,6 +189,7 @@ public class Cube implements CubeInterface{
 		}
 		return temp;
 	}
+	
 	private void setAdjRows() {
 		for(int i=0;i<faces.length;i++) {
 			faces[i].setRows();

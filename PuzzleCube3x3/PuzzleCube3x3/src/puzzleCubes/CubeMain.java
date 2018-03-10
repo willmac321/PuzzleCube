@@ -1,13 +1,15 @@
 package puzzleCubes;
 import java.util.*;
-public class CubeMain {
+public class CubeMain implements CubeInterface {
 
+	private CubeDisplay cubeDisp;
+	private Cube cube;
 	    /*
 		 * 0,1,2
 		 * 3,4,5
 		 * 6,7,8
 		 */
-		public static void main(String[] args) {
+		public CubeMain() {
 		
 		char[][] test = new char[6][];
 		
@@ -30,7 +32,7 @@ public class CubeMain {
 		test[5]=new char[]{'y','y','y','y','y','y','y','y','y'};
 		//Face front = new Face(arrFrontFace);
 
-		Cube cube = new Cube(test[0],test[1],test[2],test[3],test[4],test[5]);
+		cube = new Cube(test[0],test[1],test[2],test[3],test[4],test[5]);
 		System.out.print(cube.showFrontRows());
 		System.out.print("BackRows\n");
 		System.out.print(cube.showBackRows());
@@ -72,10 +74,51 @@ public class CubeMain {
 		System.out.print(cube.showBackRows());
 		System.out.print(cube.toString());
 		
-		CubeDisplay cubeDisp = new CubeDisplay(cube);
+		cubeDisp = new CubeDisplay(cube);
 		
 		cubeDisp.createAndShowGui();
 		
 	}
+	
+	public void turnRight() {
+		cube.turnRight();
+		cubeDisp.reDrawCube();
+	}
+		
+	public void turnLeft() {
+		cube.turnLeft();
+		cubeDisp.reDrawCube();
+	}
+	
+	public void turnUp() {
+		cube.turnUp();
+		cubeDisp.reDrawCube();
+	}
+	
+	public void turnDown() {
+		cube.turnDown();
+		cubeDisp.reDrawCube();
+	}
+	
+	public void rotateFaceCCW() {
+		cube.rotateFaceCCW();
+		cubeDisp.reDrawCube();
+	}
+	
+	public void rotateFaceCW() {
+		cube.rotateFaceCW();
+		cubeDisp.reDrawCube();
+	}
+	
+	public char[][]showCurrentState() {
+		return cube.showCurrentState();
+	}
+	
+	
+	public String toString() {
+		
+		return cube.toString();
+	}
+
 
 }

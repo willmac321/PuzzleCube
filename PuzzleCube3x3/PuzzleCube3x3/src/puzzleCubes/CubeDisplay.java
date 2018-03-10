@@ -227,7 +227,7 @@ public class CubeDisplay extends JFrame {
 
 	}
 	
-	private void reDrawCube() {
+	public void reDrawCube() {
 		setCubeDisplay(cube);
 		home.remove(panelCube);
 		paintCube();
