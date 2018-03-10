@@ -78,6 +78,7 @@ public class Cube implements CubeInterface{
 	
 	protected void setColor(char c,int face, int index) {
 			faces[face].setColor(c,index);
+			setCurrentState();
 	}
 	
 	protected boolean checkConfig() {
@@ -88,7 +89,7 @@ public class Cube implements CubeInterface{
 			int i=0;
 			for(int c:temp) {
 				count[i]+=c;
-				if(count[i]>9 || count[i]<=0) {
+				if(count[i]>10 || count[i]<0) {
 					rv=false;
 					
 				}
