@@ -9,5 +9,6 @@ public class RunSolver {
 		
 		CubeMain cube = new CubeMain();
 		SolveTheCube solver = new SolveTheCube(cube);
-	}
+
+}
 }
