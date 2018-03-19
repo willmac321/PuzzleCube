@@ -20,7 +20,9 @@ public class MoveWeights {
 		this.weight = weight;
 	}
 	
-	
+	public void calculateWeight() {
+		weight=weight*
+	}
 	
 	
 	

@@ -69,6 +69,12 @@ public class SolveTheCube {
 		
 	}
 	
+	protected void setWeights(int[] t) {
+		for (int i=0;i<t.length;i++) {
+			weights[i].setWeight(t[i]);			
+		}
+	}
+	
 	protected void calculateWeights(int[] t) {
 		//error calculation goes here....
 		
