@@ -33,6 +33,7 @@ public class CubeMain implements CubeInterface {
 		//Face front = new Face(arrFrontFace);
 
 		cube = new Cube(test[0],test[1],test[2],test[3],test[4],test[5]);
+		/*
 		System.out.print(cube.showFrontRows());
 		System.out.print("BackRows\n");
 		System.out.print(cube.showBackRows());
@@ -73,7 +74,7 @@ public class CubeMain implements CubeInterface {
 		System.out.print("BackRows\n");
 		System.out.print(cube.showBackRows());
 		System.out.print(cube.toString());
-		
+		*/
 		cubeDisp = new CubeDisplay(cube);
 		
 		cubeDisp.createAndShowGui();
@@ -110,13 +111,17 @@ public class CubeMain implements CubeInterface {
 		cubeDisp.reDrawCube();
 	}
 	
-	public char[][]showCurrentState() {
+	public char[][] showCurrentState() {
 		return cube.showCurrentState();
 	}
 	
+	public String[] showFaceEdges(Cube test, int faceNum) {
+		
+		return cube.showFaceArray(test, faceNum);
+	}
 	
 	public String toString() {
-		
+		System.out.print(cube.showFrontRows());
 		return cube.toString();
 	}
 

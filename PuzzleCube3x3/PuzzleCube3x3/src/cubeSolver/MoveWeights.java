@@ -21,7 +21,7 @@ public class MoveWeights {
 	}
 	
 	public void calculateWeight() {
-		weight=weight*
+	//	weight=weight*
 	}
 	
 	

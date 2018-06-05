@@ -1,8 +1,19 @@
 package puzzleCubes;
 
+import java.util.Random;
+
 public class Cube implements CubeInterface{
 
+	//counters for colors
+	int cW;
+	int cR;
+	int cG;
+	int cO;
+	int cB;
+	int cY;
+	
 	private Face[] faces; //front, top, right, bot, left, back
+	
 	public Cube() {
 		
 	}
@@ -21,6 +32,52 @@ public class Cube implements CubeInterface{
 		faces[4]=(new Face(left, rotateArray(rotateArray(top)), front,rotateArray(bot), rotateArray(rotateArray(back)))); //left		
 		faces[5]=(new Face(back,bot,rotateArray(rotateArray(right)), top, rotateArray(rotateArray(left ))));  //back
 		//faces[5].rotateFace(2);	
+	}
+	
+	public char[][] randomize() {
+		//counters for colors
+		cW = 0;
+		cR = 0;
+		cG = 0;
+		cO = 0;
+		cB = 0;
+		cY = 0;
+		
+		//char array for new cube
+		char[][] newCube = new char[6][9];
+		for(int s = 0; s < 6; s++) {
+			for(int f = 0; f < 9; f++) {
+				newCube[s][f] = 'n';
+			}
+		}
+		
+		
+		Random rand = new Random();
+		//get random number corresponding to 6 colors on cube
+		for(int s = 0; s < 6; s++) {
+			for(int f = 0; f < 9; f++) {
+				char test = 'n';
+				while (test == 'n'){
+					int randomNum = rand.nextInt((6 - 1) + 1) + 1;
+					test = intToColor(randomNum);
+					String[] strTest = showFaceArray(new Cube(newCube[0], newCube[1], newCube[2], newCube[3], newCube[4], newCube[5]), s);
+					//debugstatement
+					if(s == 5) {
+						//Some other condition exists where colors cannot not be placed resulting in continuous loop
+						s = 5;
+					}
+					if (!checkIfValidConfig(test, strTest[f])) {
+						test = 'n';
+					}
+				}
+				newCube[s][f] = test;
+			}
+		}
+		
+		setFaces(newCube[0], newCube[1], newCube[2], newCube[3], newCube[4], newCube[5]);
+		
+		return newCube;
+		
 	}
 	
 	@Override
@@ -196,6 +253,28 @@ public class Cube implements CubeInterface{
 		}
 	}
 	
+	public String[] showFaceArray(Cube test, int faceNum) {
+		String[] rv = new String[9];
+		Piece[] row = test.faces[faceNum].getTopRow();
+		for (int i=0;i<3;i++) {
+			rv[i] = row[i].toString();
+		}
+
+		row = test.faces[faceNum].getLeftRow();
+		Piece[] other = test.faces[faceNum].getRightRow();
+		
+		rv[3] = row[1].toString();
+		rv[4] = Character.toString(test.faces[faceNum].getMiddle());
+		rv[5] = other[1].toString();
+		
+		other = test.faces[faceNum].getBotRow();
+		
+		for (int i=0;i<3;i++) {
+			rv[i + 6] = other[i].toString();
+		}		
+		return rv;
+	}
+	
 	public String showFrontRows() {
 		String rv=" ";
 		Piece[] row = faces[0].getTopRow();
@@ -214,8 +293,6 @@ public class Cube implements CubeInterface{
 			rv+=" " + other[i].toString();
 		}
 		rv+="\n";
-		
-		
 		
 		return rv;
 	}
@@ -257,6 +334,133 @@ public class Cube implements CubeInterface{
 		rv+="\n";
 		return rv;
 	}
+	
+	private char intToColor(int ranInt) {
+		char rv = 'n';
+		
+		switch(ranInt) {
+			case 1:
+				cR++;
+				if (checkColorCount(cR)) {
+					rv = 'r';
+				}
+				break;
+			case 2:
+				cG++;
+				if (checkColorCount(cG)) {
+					rv = 'g';
+				}
+				break;
+			case 3:
+				cB++;
+				if (checkColorCount(cB)) {
+					rv = 'b';
+				}
+				break;
+			case 4:
+				cY++;
+				if (checkColorCount(cY)) {
+					rv = 'y';
+				}
+				break;
+			case 5:
+				cW++;
+				if (checkColorCount(cW)) {
+					rv = 'w';
+				}
+				break;
+			case 6:
+				cO++;
+				if (checkColorCount(cO)) {
+					rv = 'o';
+				}
+				break;
+			default:
+				System.out.println("Error 418: I'm a little teapot");		
+		}		
+		return rv;
+	}
+	
+	private boolean checkColorCount(int colorCount) {
+		boolean rv = false;
+		
+		if (colorCount < 10) {
+			rv = true;
+		}
+		
+		return rv;
+	}
+	
+	private boolean checkIfValidConfig(char color, String test) {
+		
+		boolean rv = false;
+		
+		switch (color) {
+			case 'r':
+				//if matching edge is white, blue, yellow, green return true
+				if(iterateToCheckColors(color, 'o', test)){
+					rv = true;
+				}
+				else {
+					cR--;					
+				}
+				break;
+			case 'b':
+				if(iterateToCheckColors(color, 'g', test)){
+					rv = true;
+				}
+				else {
+					cB--;
+				};
+				break;
+			case 'g':
+				if(iterateToCheckColors(color, 'b', test)){
+					rv = true;
+
+				}
+				else {
+					cG--;
+				};
+				break;
+			case 'y':
+				if(iterateToCheckColors(color, 'w', test)){
+					rv = true;			
+				}
+				else {
+					cY--;
+				};
+				break;
+			case 'w':
+				if(iterateToCheckColors(color, 'y', test)){
+					rv = true;					
+				}
+				else {
+					cW--;
+				};
+				break;
+			case 'o':
+				if(iterateToCheckColors(color, 'r', test) ){
+					rv = true;		
+				}
+				else {
+					cO--;
+				};
+				break;
+		}
+		
+		return rv;
+	}
+	
+	private boolean iterateToCheckColors(char color, char oppColor, String test) {
+		boolean rv = true;
+		for(int i = 0; i < test.length(); i++) {
+			if (color == test.charAt(i) || oppColor == test.charAt(i)) {
+				rv = false;
+			}
+		}
+		return rv;
+	}
+	
 	public String toString() {	
 		String rv = "";		
 		rv="Front: \n" + faces[0].toString() +

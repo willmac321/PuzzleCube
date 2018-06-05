@@ -27,7 +27,7 @@ public class CubeDisplay extends JFrame {
 	private JPanel panelCube;
 	private JPanel home;
 	private JPanel btnContain;
-	private JButton btnCW,btnCCW,btnUp,btnDown,btnRight,btnLeft;
+	private JButton btnCW,btnCCW,btnUp,btnDown,btnRight,btnLeft, btnRand;
 	private Dimension dim;
 	private char[][] cubeArray;
 	private Cube cube;
@@ -93,6 +93,8 @@ public class CubeDisplay extends JFrame {
 		btnRight= new JButton("Right");
 		btnLeft=new JButton("Left");
 		
+		btnRand = new JButton("Randomize");
+		
 		btnCW.addActionListener(click);
 		btnCCW.addActionListener(click);
 		btnUp.addActionListener(click);
@@ -100,6 +102,7 @@ public class CubeDisplay extends JFrame {
 		btnRight.addActionListener(click);
 		btnLeft.addActionListener(click);
 		
+		btnRand.addActionListener(click);
 		
 		btnContain.setLayout(new GridLayout(3,2,5,5));
 		btnContain.add(btnCW);
@@ -108,6 +111,7 @@ public class CubeDisplay extends JFrame {
 		btnContain.add(btnDown);
 		btnContain.add(btnLeft);	
 		btnContain.add(btnRight);
+		btnContain.add(btnRand);
 		btnContain.setSize(new Dimension(RECTD,RECTD));
 		
 	}
@@ -306,6 +310,10 @@ public class CubeDisplay extends JFrame {
 				}
 				else if(e==btnRight){
 					cube.turnRight();
+					reDrawCube();
+				}
+				else if(e==btnRand) {
+					cube.randomize();
 					reDrawCube();
 				}
 			}

@@ -166,6 +166,10 @@ public class Face {
 		return botRow;
 	}
 
+	protected char getMiddle() {
+		return m.getFront();
+	}
+	
 	protected Piece[] getLeftRow() {
 		return leftRow;
 	}
