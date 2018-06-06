@@ -2,7 +2,7 @@ package puzzleCubes;
 
 import java.util.Random;
 
-public class Cube implements CubeInterface{
+public class Cube{
 
 	//counters for colors
 	int cW;
@@ -34,7 +34,7 @@ public class Cube implements CubeInterface{
 		//faces[5].rotateFace(2);	
 	}
 	
-	public Cube randomize(int maxMoves) {
+	protected Cube randomize(int maxMoves) {
 		//create new solved cube
 		Cube newCube = new Cube();
 		newCube = newCube.createSolvedCube();
@@ -57,13 +57,11 @@ public class Cube implements CubeInterface{
 		
 	}
 	
-	@Override
-	public void rotateFaceCW() {
+	protected void rotateFaceCW() {
 		rotateFaceCounterClockWise(3);
 	}
 
-	@Override
-	public void rotateFaceCCW() {
+	protected void rotateFaceCCW() {
 		 rotateFaceCounterClockWise(1);
 	}
 	
@@ -133,14 +131,12 @@ public class Cube implements CubeInterface{
 		return rv;		
 	}
 	
-	@Override
-	public void turnRight() {
+	protected void turnRight() {
 		turnHoriz(3);
 		
 	}
 
-	@Override
-	public void turnLeft() {
+	protected void turnLeft() {
 		turnHoriz(1);
 		
 	}
@@ -202,18 +198,16 @@ public class Cube implements CubeInterface{
 		setCurrentState();
 
 	}
-	@Override
-	public void turnUp() {
+
+	protected void turnUp() {
 		turnVert(1);
 	}
 
-	@Override
-	public void turnDown() {
+	protected void turnDown() {
 		turnVert(3);
 	}
 
-	@Override
-	public char[][]showCurrentState() {
+	protected char[][]showCurrentState() {
 		char[][] temp = new char[6][];
 		int i=0;
 		for (Face face:faces) {
@@ -230,7 +224,7 @@ public class Cube implements CubeInterface{
 		}
 	}
 	
-	public String[] showFaceArray(Cube test, int faceNum) {
+	protected String[] showFaceArray(Cube test, int faceNum) {
 		String[] rv = new String[9];
 		Piece[] row = test.faces[faceNum].getTopRow();
 		for (int i=0;i<3;i++) {
@@ -252,7 +246,7 @@ public class Cube implements CubeInterface{
 		return rv;
 	}
 	
-	public String showFrontRows() {
+	protected String showFrontRows() {
 		String rv=" ";
 		Piece[] row = faces[0].getTopRow();
 		for (int i=0;i<3;i++) {
@@ -273,7 +267,8 @@ public class Cube implements CubeInterface{
 		
 		return rv;
 	}
-	public String showBackRows() {
+	
+	protected String showBackRows() {
 		String rv=" ";
 		Piece[] row = faces[5].getTopRow();
 		for (int i=0;i<3;i++) {
@@ -292,7 +287,7 @@ public class Cube implements CubeInterface{
 		rv+="\n";
 		return rv;
 	}
-	public String showRightRows() {
+	protected String showRightRows() {
 		String rv=" ";
 		Piece[] row = faces[2].getTopRow();
 		for (int i=0;i<3;i++) {
@@ -340,7 +335,7 @@ public class Cube implements CubeInterface{
 		return newCube;
 	}
 		
-	public Cube createSolvedCube() {
+	protected Cube createSolvedCube() {
 		
 		
 		char[][] test = new char[6][];

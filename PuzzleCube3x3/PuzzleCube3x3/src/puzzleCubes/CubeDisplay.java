@@ -32,7 +32,7 @@ public class CubeDisplay extends JFrame {
 	private ColorChange colorChange;
 	
 	
-	public CubeDisplay() {
+	protected CubeDisplay() {
 	
 		dim = new Dimension(1000,1000);
 		home =new JPanel(new GridLayout());
@@ -43,14 +43,14 @@ public class CubeDisplay extends JFrame {
 		this.c=0;
 	}
 	
-	public CubeDisplay(Cube cube) {
+	protected CubeDisplay(Cube cube) {
 		this();
 		click = new ActionClick();
 		colorChange=new ColorChange();
 		setCubeDisplay(cube);	
 	}
 	
-	public void createAndShowGui() {		
+	protected void createAndShowGui() {		
 		this.setTitle("Puzzle Cube Configuration");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(dim);
@@ -173,7 +173,7 @@ public class CubeDisplay extends JFrame {
 		  return panelCube;   
 	}
 	
-	public Color getColor(char t) {
+	protected Color getColor(char t) {
 		
 		switch (t) {
 		case 'w':
@@ -200,7 +200,7 @@ public class CubeDisplay extends JFrame {
 		return color;		
 	}
 	
-	public char getCharFromColor(Color c) {
+	protected char getCharFromColor(Color c) {
 		char rv=0;
 		
 		
@@ -226,7 +226,7 @@ public class CubeDisplay extends JFrame {
 		return rv;		
 	}
 	
-	public void reDrawCube() {
+	protected void reDrawCube() {
 		setCubeDisplay(cube);
 		home.remove(panelCube);
 		paintCube();
@@ -239,7 +239,7 @@ public class CubeDisplay extends JFrame {
 		cube.setColor(getCharFromColor(c),face,index);
 	}
 	
-	public void setCubeDisplay(Cube cube) {
+	protected void setCubeDisplay(Cube cube) {
 		cubeArray=cube.showCurrentState();
 		this.cube=cube;
 	}

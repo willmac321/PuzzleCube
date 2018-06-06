@@ -37,29 +37,29 @@ public class SolveTheCube {
 		while(error>0) {
 			initialize();
 			Cube testCube = new Cube(colors[0],colors[1],colors[2],colors[3],colors[4],colors[5]);
-			
-				switch(suggestNextMove()) {
-				case 0:
-					testCube.turnRight();
-					break;
-				case 1:
-					testCube.turnLeft();
-					break;
-				case 2:
-					testCube.turnUp();
-					break;
-				case 3:
-					testCube.turnDown();
-					break;
-				case 4:
-					testCube.rotateFaceCW();
-					break;
-				case 5:
-					testCube.rotateFaceCCW();
-					break;
-				}
+//			
+//				switch(suggestNextMove()) {
+//				case 0:
+//					testCube.turnRight();
+//					break;
+//				case 1:
+//					testCube.turnLeft();
+//					break;
+//				case 2:
+//					testCube.turnUp();
+//					break;
+//				case 3:
+//					testCube.turnDown();
+//					break;
+//				case 4:
+//					testCube.rotateFaceCW();
+//					break;
+//				case 5:
+//					testCube.rotateFaceCCW();
+//					break;
+//				}
 				
-				calculateWeights(calculateError(testCube.showCurrentState()));
+//				calculateWeights(calculateError(testCube.showCurrentState()));
 	
 						
 		}
