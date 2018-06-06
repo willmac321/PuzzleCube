@@ -13,7 +13,6 @@ public class guiRectangle extends JPanel implements MouseListener{
 
 	private Color color;
 	private int intColor;
-	private JPanel panel;
 	private int faceNumber;
 	private int indexNumber;
 	

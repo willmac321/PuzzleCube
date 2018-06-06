@@ -1,7 +1,5 @@
 package puzzleCubes;
 
-import java.awt.Color;
-
 public class Face {
 
 	private CornerPiece bl, br, tr,  tl;

@@ -60,10 +60,7 @@ public class SolveTheCube {
 				}
 				
 				calculateWeights(calculateError(testCube.showCurrentState()));
-				
-			for (int err : errorSum) {	
-				
-			}
+	
 						
 		}
 		

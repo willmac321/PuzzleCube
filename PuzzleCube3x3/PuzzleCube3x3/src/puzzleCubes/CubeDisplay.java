@@ -1,13 +1,9 @@
 package puzzleCubes;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +16,8 @@ import javax.swing.JPanel;
 
 public class CubeDisplay extends JFrame {
 	private static final int RECTD = 95;
-
+	private static final int MAX_RAND_MOVES = 30;
+	
 	int c;
 	int r;
 	private Color color;
@@ -227,8 +224,6 @@ public class CubeDisplay extends JFrame {
 		}
 
 		return rv;		
-
-
 	}
 	
 	public void reDrawCube() {
@@ -313,7 +308,7 @@ public class CubeDisplay extends JFrame {
 					reDrawCube();
 				}
 				else if(e==btnRand) {
-					cube.randomize();
+					cube.randomize(MAX_RAND_MOVES);
 					reDrawCube();
 				}
 			}

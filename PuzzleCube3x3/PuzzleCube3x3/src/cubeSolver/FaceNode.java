@@ -1,8 +1,8 @@
 package cubeSolver;
 
 public class FaceNode {
-	private int[] err;
 	private static final int CMP_INDEX=4;
+	private int[] err;
 	private char[] face;
 
 	public FaceNode() {
