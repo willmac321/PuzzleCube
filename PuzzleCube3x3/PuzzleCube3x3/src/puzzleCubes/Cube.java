@@ -1,29 +1,23 @@
 package puzzleCubes;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Cube{
-
-	//counters for colors
-	int cW;
-	int cR;
-	int cG;
-	int cO;
-	int cB;
-	int cY;
 	
 	private Face[] faces; //front, top, right, bot, left, back
+	private ArrayList<String> moves;
 	
 	public Cube() {
-		
+		moves = new ArrayList<String>();
 	}
 	
 	public Cube(char[] front, char[] top,  char[] right, char[] bot,char[] left, char[] back) {
-		super();
+		this();
 		setFaces(front, top,  right, bot, left, back);
 	}
 
-	private void setFaces(char[] front, char[] top,  char[] right, char[] bot,char[] left, char[] back) {
+	void setFaces(char[] front, char[] top,  char[] right, char[] bot,char[] left, char[] back) {
 		faces=new Face[6];		
 		faces[0]=(new Face(front, top, right, bot ,left)); //front
 		faces[1]=(new Face(top,back, rotateArray(rotateArray(rotateArray(right))), front,rotateArray(left))); //top
@@ -32,6 +26,23 @@ public class Cube{
 		faces[4]=(new Face(left, rotateArray(rotateArray(top)), front,rotateArray(bot), rotateArray(rotateArray(back)))); //left		
 		faces[5]=(new Face(back,bot,rotateArray(rotateArray(right)), top, rotateArray(rotateArray(left ))));  //back
 		//faces[5].rotateFace(2);	
+	}
+	
+	protected boolean isSolved() {
+		boolean rv = false;
+		for(Face face:faces) {
+			char[] fColors = face.colorToSingleArray(face.getFaceColors());
+			for(int i = 0; i < 9; i++) {
+				if(fColors[i] == fColors[4]) {
+					rv = true;
+				}
+				else {
+					rv = false;
+					return rv;
+				}
+			}
+		}
+		return rv;
 	}
 	
 	protected Cube randomize(int maxMoves) {
@@ -307,27 +318,33 @@ public class Cube{
 		return rv;
 	}
 	
-	private Cube intMove(Cube newCube, int ranInt) {
+	Cube intMove(Cube newCube, int ranInt) {
 		
 		
 		switch(ranInt) {
 			case 1:
 				newCube.rotateFaceCW();
+				pushMove("CW");
 				break;
 			case 2:
 				newCube.rotateFaceCCW();
+				pushMove("CCW");
 				break;
 			case 3:
 				newCube.turnUp();
+				pushMove("UP");
 				break;
 			case 4:
 				newCube.turnDown();
+				pushMove("D");
 				break;
 			case 5:
 				newCube.turnLeft();
+				pushMove("L");
 				break;
 			case 6:
 				newCube.turnRight();
+				pushMove("R");
 				break;
 			default:
 				System.out.println("Error 418: I'm a little teapot");		
@@ -362,6 +379,21 @@ public class Cube{
 		return new Cube(test[0],test[1],test[2],test[3],test[4],test[5]);
 	}
 	
+	protected void pushMove(String str) {
+		moves.add(str);
+	}
+	
+	protected void removeLastMove() {
+		moves.remove(moves.size()-1);
+	}
+	
+	protected void removeAllMoves() {
+		moves.clear();
+	}
+	
+	public String printMoveArray() {
+		return moves.toString();
+	}
 	
 	public String toString() {	
 		String rv = "";		

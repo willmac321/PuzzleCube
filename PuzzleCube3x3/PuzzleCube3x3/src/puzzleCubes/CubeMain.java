@@ -2,7 +2,7 @@ package puzzleCubes;
 import java.awt.EventQueue;
 import java.util.Arrays;
 
-public class CubeMain {
+public class CubeMain implements CubeInterface {
 	
 	private CubeDisplay cubeDisp;
 	private Cube cube;
@@ -67,6 +67,25 @@ public class CubeMain {
 	
 	public void randomize(int rNum) {
 		cube.randomize(rNum);
+	}
+	
+	public String getMoveList() {
+		return cube.printMoveArray();
+	}
+	
+	public void clearMoveList() {
+		cube.removeAllMoves();
+	}
+	
+	public boolean isSolved() {
+		return cube.isSolved();
+	}
+	
+	public void translateCubeMove(int ranInt) {
+		cube = cube.intMove(cube, ranInt);
+		char[][] temp = cube.showCurrentState();
+		cube.setFaces(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5]);
+		
 	}
 	
 	public void redrawDisplay() {
