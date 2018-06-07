@@ -78,7 +78,7 @@ public class CubeMain implements CubeInterface {
 	
 	public String getMoveList() {
 		String str = cube.printMoveArray();		
-		return str.substring(1, str.length() - 2) + ",";
+		return str.substring(1, str.length()-1) + ",";
 	}
 	
 	public void clearMoveList() {

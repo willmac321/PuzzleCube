@@ -8,6 +8,9 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 public class DataSet {
@@ -19,11 +22,8 @@ public class DataSet {
 	
 	public DataSet() {
 				
-		
-		// TODO Auto-generated method stub
 		cube = new CubeMain();
 		//System.out.print(cube.toString());
-
 	}
 	
 	public void setScramble(int maxMoves) {
@@ -32,17 +32,19 @@ public class DataSet {
 	
 	public void initializeRandomization() {
 		cube.randomize(maxRandMoves);
-		cube.redrawDisplay();
+		//cube.redrawDisplay();
 	}
 	
-	public void createFileStream(String fileName) {
+	public void createFileStream(String fileName, int maxMoves) {
 		try {
-			File file = new File(fileName + ".csv");
-			if(file.exists()) {
-				pw = new PrintWriter(new FileWriter(file, true) );
+			Path str = Paths.get(fileName + ".csv");
+			if(Files.exists(str)) {
+				pw = new PrintWriter(new FileWriter(new File(fileName + ".csv"), true) );
+				
 			}
 			else {
-				pw = new PrintWriter(new FileWriter(file, false));
+				pw = new PrintWriter(new FileWriter(new File(fileName + ".csv"), false));
+				createHeader(maxMoves);
 			}
 			
 		} catch (FileNotFoundException e) {
@@ -53,8 +55,25 @@ public class DataSet {
 
 	}
 	
+	private void createHeader(int maxMoves) {
+		sb = new StringBuilder();
+		sb.append("ScrambleNum,f1,f2,f3,f4,f5,f6,f7,f8,f9,t1,t2,t3,t4,t5,t6,t7,t8,t9,r1,r2,r3,r4,r5,r6,r7,r8,r9,");
+		sb.append("b1,b2,b3,b4,b5,b6,b7,b8,b9,l1,l2,l3,l4,l5,l6,l7,l8,l9,ba1,ba2,ba3,ba4,ba5,ba6,ba7,ba8,ba9,");
+		for (int i = 1; i < maxMoves + 1; i++) {
+			sb.append("m" + i + ",");
+			
+		}
+		sb.append("f1,f2,f3,f4,f5,f6,f7,f8,f9,t1,t2,t3,t4,t5,t6,t7,t8,t9,r1,r2,r3,r4,r5,r6,r7,r8,r9,");
+		sb.append("b1,b2,b3,b4,b5,b6,b7,b8,b9,l1,l2,l3,l4,l5,l6,l7,l8,l9,ba1,ba2,ba3,ba4,ba5,ba6,ba7,ba8,ba9,solved,\n");
+		pw.write(sb.toString());
+	}
+	
 	public void logNewLine() {
 		pw.write("\n");
+	}
+	
+	public void logScrambleState(int scr) {
+		pw.write(scr + ",");
 	}
 	
 	public void logCubeState() {
@@ -67,6 +86,10 @@ public class DataSet {
 		sb = new StringBuilder();
 		sb.append(cube.isSolved());
 		pw.write(sb.toString() + ",");
+	}
+	
+	public boolean isAlreadySolved() {
+		return cube.isSolved();
 	}
 	
 	public void logMoveList(int spaces) {
@@ -97,7 +120,7 @@ public class DataSet {
 	public void runDataSetCreation(int turns) {
 		//System.out.print(cube.toString());
 		doRandomTurns(turns);
-		cube.redrawDisplay();
+		//cube.redrawDisplay();
 		//System.out.print(cube.getMoveList());
 	}
 	
