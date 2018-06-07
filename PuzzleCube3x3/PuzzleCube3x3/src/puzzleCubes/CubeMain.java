@@ -1,6 +1,5 @@
 package puzzleCubes;
 import java.awt.EventQueue;
-import java.util.Arrays;
 
 public class CubeMain implements CubeInterface {
 	
