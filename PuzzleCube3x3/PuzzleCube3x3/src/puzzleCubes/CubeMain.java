@@ -33,7 +33,14 @@ public class CubeMain implements CubeInterface {
 	}
 
 	public String cubeToString() {
-		return Arrays.toString(showCurrentState());
+		char[][] c = (showCurrentState());
+		String str = " ";
+		for (char[] face:c) {
+			for (char piece:face ) {
+				str += piece + ", ";
+			}
+		}
+		return str;
 	}
 	
 	public void turnRight() {
@@ -70,7 +77,8 @@ public class CubeMain implements CubeInterface {
 	}
 	
 	public String getMoveList() {
-		return cube.printMoveArray();
+		String str = cube.printMoveArray();		
+		return str.substring(1, str.length() - 2) + ",";
 	}
 	
 	public void clearMoveList() {
