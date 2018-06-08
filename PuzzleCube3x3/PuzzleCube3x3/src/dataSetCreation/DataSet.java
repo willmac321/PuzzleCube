@@ -20,9 +20,9 @@ public class DataSet {
 	private PrintWriter pw;
 	private StringBuilder sb;
 	
-	public DataSet() {
+	public DataSet(CubeMain cube) {
 				
-		cube = new CubeMain();
+		this.cube = cube;
 		//System.out.print(cube.toString());
 	}
 	

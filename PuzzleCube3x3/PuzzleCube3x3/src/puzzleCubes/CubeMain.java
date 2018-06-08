@@ -3,8 +3,8 @@ import java.awt.EventQueue;
 
 public class CubeMain implements CubeInterface {
 	
-	private CubeDisplay cubeDisp;
-	private Cube cube;
+	private static CubeDisplay cubeDisp;
+	private static Cube cube;
 	    /*
 		 * 0,1,2
 		 * 3,4,5
@@ -13,7 +13,7 @@ public class CubeMain implements CubeInterface {
 	public CubeMain() {
 		cube = new Cube();
 		cube = cube.createSolvedCube();
-		cubeDisp = new CubeDisplay(cube);
+		cubeDisp = new CubeDisplay(this, cube);
 		cubeDisp.createAndShowGui();
 	}
 	

@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -13,6 +15,9 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import dataSetCreation.DataSetCreationMain;
 
 public class CubeDisplay extends JFrame {
 	private static final int RECTD = 95;
@@ -23,14 +28,20 @@ public class CubeDisplay extends JFrame {
 	private Color color;
 	private JPanel panelCube;
 	private JPanel home;
-	private JPanel btnContain;
-	private JButton btnCW,btnCCW,btnUp,btnDown,btnRight,btnLeft, btnRand;
+	private JPanel btnContain, solverContain;
+	private JButton btnCW,btnCCW,btnUp,btnDown,btnRight,btnLeft, btnRand, btnCreateDataSet;
 	private Dimension dim;
 	private char[][] cubeArray;
 	private Cube cube;
+	private CubeMain cubeMain;
 	private ActionClick click;
 	private ColorChange colorChange;
-	
+	private JTextField listbSaveFileName, listbMaxMoves, listbMaxScrambles;
+	private JTextField listbMaxIterations;
+	private Label txtSaveFileName, txtMaxMoves, txtMaxScramble, txtMaxIterations;
+	private Label txtMessages;
+	private Label txtMoveHeader;
+	private Label txtDataHeader;
 	
 	protected CubeDisplay() {
 	
@@ -38,16 +49,19 @@ public class CubeDisplay extends JFrame {
 		home =new JPanel(new GridLayout());
 		
 		btnContain = new JPanel();
+		
+		solverContain = new JPanel();
 
 		this.r=0;
 		this.c=0;
 	}
 	
-	protected CubeDisplay(Cube cube) {
+	protected CubeDisplay(CubeMain cubeMain, Cube cube) {
 		this();
 		click = new ActionClick();
 		colorChange=new ColorChange();
 		setCubeDisplay(cube);	
+		this.cubeMain = cubeMain;
 	}
 	
 	protected void createAndShowGui() {		
@@ -59,8 +73,9 @@ public class CubeDisplay extends JFrame {
 		
 		setButtons();
 
-		JPanel rtContain = new JPanel(new FlowLayout(FlowLayout.CENTER,2,this.getHeight()/2));
+		JPanel rtContain = new JPanel(new FlowLayout(FlowLayout.CENTER,100,this.getHeight()/5));
 		rtContain.add(btnContain);
+		rtContain.add(solverContain);
 		//sideView.add(btnContain);
 		//btnContain.add(btnOK);
 		panelCube= new JPanel();
@@ -82,7 +97,9 @@ public class CubeDisplay extends JFrame {
 
 	}
 	private void setButtons() {
-
+		
+		
+		
 		btnCW= new JButton("CW");
 		btnCCW=new JButton("CCW");
 		btnUp=new JButton("Up");
@@ -91,6 +108,12 @@ public class CubeDisplay extends JFrame {
 		btnLeft=new JButton("Left");
 		
 		btnRand = new JButton("Randomize");
+		
+		btnCreateDataSet = new JButton("Create DataSet");
+		
+		txtMoveHeader = new Label("Available Moves: ");
+		
+		txtDataHeader = new Label("Create a Move Data Set: ");
 		
 		btnCW.addActionListener(click);
 		btnCCW.addActionListener(click);
@@ -101,7 +124,11 @@ public class CubeDisplay extends JFrame {
 		
 		btnRand.addActionListener(click);
 		
-		btnContain.setLayout(new GridLayout(3,2,5,5));
+		btnCreateDataSet.addActionListener(click);
+		
+		btnContain.setLayout(new GridLayout(5,2,5,5));
+		btnContain.add(txtMoveHeader);
+		btnContain.add(new Label());
 		btnContain.add(btnCW);
 		btnContain.add(btnCCW);
 		btnContain.add(btnUp);
@@ -111,6 +138,37 @@ public class CubeDisplay extends JFrame {
 		btnContain.add(btnRand);
 		btnContain.setSize(new Dimension(RECTD,RECTD));
 		
+		
+		
+		listbSaveFileName = new JTextField("cubeDataSet");
+		listbMaxMoves = new JTextField("10");
+		listbMaxScrambles = new JTextField("2");
+		listbMaxIterations = new JTextField("10");
+		txtSaveFileName = new Label("Input Save File Name: ");
+		txtMaxMoves = new Label("Input Max Moves: ");
+		txtMaxScramble = new Label("Input Maximum Random Turns: ");
+		txtMaxIterations = new Label("Maximum Iterations (resets on each run): ");
+		txtMessages = new Label(" ");
+		
+		
+		solverContain.setLayout(new GridLayout(6,2,5,5));
+		solverContain.add(txtDataHeader);
+		solverContain.add(new Label());
+		solverContain.add(txtSaveFileName);
+		solverContain.add(listbSaveFileName);
+		solverContain.add(txtMaxMoves);
+		solverContain.add(listbMaxMoves);
+		solverContain.add(txtMaxScramble);
+		solverContain.add(listbMaxScrambles);
+		solverContain.add(txtMaxIterations);
+		solverContain.add(listbMaxIterations);
+		solverContain.add(btnCreateDataSet);
+		solverContain.add(txtMessages);
+		
+		Font font = new Font(txtMoveHeader.getFont().getName(), Font.BOLD, txtMoveHeader.getFont().getSize()+3);
+		
+		txtMoveHeader.setFont(font);
+		txtDataHeader.setFont(font);
 	}
 	private void paintCube() {
 		
@@ -310,6 +368,12 @@ public class CubeDisplay extends JFrame {
 				else if(e==btnRand) {
 					cube.randomize(MAX_RAND_MOVES);
 					reDrawCube();
+				}
+				else if(e==btnCreateDataSet) {
+					//max, scramble, iterations
+					DataSetCreationMain ds = new DataSetCreationMain(cubeMain, Integer.valueOf(listbMaxMoves.getText()),
+							 Integer.valueOf(listbMaxScrambles.getText()),  Integer.valueOf(listbMaxIterations.getText()),
+							 listbSaveFileName.getText(), txtMessages);
 				}
 			}
 			else {
