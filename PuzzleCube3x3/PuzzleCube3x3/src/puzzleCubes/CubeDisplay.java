@@ -81,7 +81,7 @@ public class CubeDisplay extends JFrame {
 		
 		setButtons();
 
-		JPanel rtContain = new JPanel(new FlowLayout(FlowLayout.CENTER,100,this.getHeight()/7));
+		JPanel rtContain = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		rtContain.add(btnContain);
 		rtContain.add(moveContain);
 		rtContain.add(solverContain);

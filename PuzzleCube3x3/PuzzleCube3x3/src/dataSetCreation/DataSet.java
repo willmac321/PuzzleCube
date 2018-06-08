@@ -101,6 +101,8 @@ public class DataSet {
 	public void logMoveList(int spaces) {
 		sb = new StringBuilder();
 		String str = cube.getMoveList();
+		str = str.replace("[", "");
+		str = str.replace("]", "");
 		int strL = str.split(",").length;
 		if (strL < spaces) {
 			spaces = spaces - strL;
@@ -109,7 +111,7 @@ public class DataSet {
 			spaces = 0;
 		}
 		
-		sb.append(cube.getMoveList());
+		sb.append(str + ",");
 		
 		for(int i = 0; i < spaces; i++) {
 			sb.append(" ,");
@@ -121,9 +123,11 @@ public class DataSet {
 	public void logMoveListReverse(int spaces) {
 		sb = new StringBuilder();
 		String str = cube.getMoveList();
-		str = str.trim();
+		str = str.replace("[", "");
+		str = str.replace("]", "");
+		int len = str.split(",").length;
 		String[] ary = str.split(",");
-		int len = ary.length;
+
 		for(int i = 0; i < len/2 ; i++) {
 			String temp = ary[i];
 			ary[i] = ary[len - 1 - i];
@@ -137,15 +141,40 @@ public class DataSet {
 			spaces = 0;
 		}
 		for(String s : ary) {
+			s = flipMove(s);
 		    sb.append(s + ",");
 		}
 		
 		for(int i = 0; i < spaces; i++) {
-			sb.append(",");
+			sb.append(" ,");
 		}
 		
 		pw.write(sb.toString());
 		cube.clearMoveList();
+	}
+	
+	private String flipMove(String s) {
+		switch(s.trim()) {
+		case "CW":
+			s = "CCW";
+			break;
+		case "CCW":
+			s = "CW";
+			break;
+		case "R":
+			s = "L";
+			break;
+		case "L":
+			s = "R";
+			break;
+		case "UP":
+			s = "D";
+			break;
+		case "D":
+			s = "UP";
+			break;
+		}
+		return s;
 	}
 	
 	public void closeFileStream() {
