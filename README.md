@@ -14,4 +14,4 @@ Maximum Iterations
 This is a work in progress currently, as the end result will be to generate a model to suggest moves to solve a cube.
 Also, I might make the UI a little prettier...
 
-![](https://gitlab.com/willmac321/PuzzleCube/blob/master/PuzzleUI.PNG)
+![](/PuzzleUI.PNG)
