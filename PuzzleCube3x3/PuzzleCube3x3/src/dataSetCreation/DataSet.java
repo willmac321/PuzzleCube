@@ -72,6 +72,12 @@ public class DataSet {
 		pw.write("\n");
 	}
 	
+	public void logSolvedState() {
+		sb = new StringBuilder();
+		sb.append(cube.solvedCubeToString());
+		pw.write(sb.toString());
+	}
+	
 	public void logScrambleState(int scr) {
 		pw.write(scr + ",");
 	}
@@ -95,7 +101,7 @@ public class DataSet {
 	public void logMoveList(int spaces) {
 		sb = new StringBuilder();
 		String str = cube.getMoveList();
-		int strL = str.split(", ").length;
+		int strL = str.split(",").length;
 		if (strL < spaces) {
 			spaces = spaces - strL;
 		}
@@ -110,6 +116,36 @@ public class DataSet {
 		}
 		
 		pw.write(sb.toString());
+	}
+	
+	public void logMoveListReverse(int spaces) {
+		sb = new StringBuilder();
+		String str = cube.getMoveList();
+		str = str.trim();
+		String[] ary = str.split(",");
+		int len = ary.length;
+		for(int i = 0; i < len/2 ; i++) {
+			String temp = ary[i];
+			ary[i] = ary[len - 1 - i];
+			ary[len - i - 1] = temp;
+		}
+		int strL = ary.length;
+		if (strL < spaces) {
+			spaces = spaces - strL;
+		}
+		else {
+			spaces = 0;
+		}
+		for(String s : ary) {
+		    sb.append(s + ",");
+		}
+		
+		for(int i = 0; i < spaces; i++) {
+			sb.append(",");
+		}
+		
+		pw.write(sb.toString());
+		cube.clearMoveList();
 	}
 	
 	public void closeFileStream() {

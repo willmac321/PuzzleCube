@@ -5,16 +5,21 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.font.FontRenderContext;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import dataSetCreation.DataSetCreationMain;
@@ -28,7 +33,7 @@ public class CubeDisplay extends JFrame {
 	private Color color;
 	private JPanel panelCube;
 	private JPanel home;
-	private JPanel btnContain, solverContain;
+	private JPanel btnContain, solverContain, moveContain;
 	private JButton btnCW,btnCCW,btnUp,btnDown,btnRight,btnLeft, btnRand, btnCreateDataSet;
 	private Dimension dim;
 	private char[][] cubeArray;
@@ -42,6 +47,9 @@ public class CubeDisplay extends JFrame {
 	private Label txtMessages;
 	private Label txtMoveHeader;
 	private Label txtDataHeader;
+	private JTextArea txtMoveList;
+	private JCheckBox chkScramble;
+	private boolean isChkScramble;
 	
 	protected CubeDisplay() {
 	
@@ -49,9 +57,9 @@ public class CubeDisplay extends JFrame {
 		home =new JPanel(new GridLayout());
 		
 		btnContain = new JPanel();
-		
+		moveContain = new JPanel();
 		solverContain = new JPanel();
-
+		isChkScramble = false;
 		this.r=0;
 		this.c=0;
 	}
@@ -73,8 +81,9 @@ public class CubeDisplay extends JFrame {
 		
 		setButtons();
 
-		JPanel rtContain = new JPanel(new FlowLayout(FlowLayout.CENTER,100,this.getHeight()/5));
+		JPanel rtContain = new JPanel(new FlowLayout(FlowLayout.CENTER,100,this.getHeight()/7));
 		rtContain.add(btnContain);
+		rtContain.add(moveContain);
 		rtContain.add(solverContain);
 		//sideView.add(btnContain);
 		//btnContain.add(btnOK);
@@ -109,6 +118,14 @@ public class CubeDisplay extends JFrame {
 		
 		btnRand = new JButton("Randomize");
 		
+		txtMoveList = new JTextArea("");
+		txtMoveList.setLineWrap(true);
+		txtMoveList.setWrapStyleWord(true);
+		txtMoveList.setOpaque(false);
+		txtMoveList.setRows(4);
+		txtMoveList.setColumns(40);
+		txtMoveList.setSize(moveContain.getWidth(), moveContain.getHeight());
+		
 		btnCreateDataSet = new JButton("Create DataSet");
 		
 		txtMoveHeader = new Label("Available Moves: ");
@@ -136,9 +153,10 @@ public class CubeDisplay extends JFrame {
 		btnContain.add(btnLeft);	
 		btnContain.add(btnRight);
 		btnContain.add(btnRand);
+
 		btnContain.setSize(new Dimension(RECTD,RECTD));
 		
-		
+		moveContain.add(txtMoveList);
 		
 		listbSaveFileName = new JTextField("cubeDataSet");
 		listbMaxMoves = new JTextField("10");
@@ -149,9 +167,10 @@ public class CubeDisplay extends JFrame {
 		txtMaxScramble = new Label("Input Maximum Random Turns: ");
 		txtMaxIterations = new Label("Maximum Iterations (resets on each run): ");
 		txtMessages = new Label(" ");
+		chkScramble = new JCheckBox("<html><body>Check to scramble and<br> randomly pick moves otherwise<br>log moves to scramble from solved</body></html>",
+				isChkScramble);
 		
-		
-		solverContain.setLayout(new GridLayout(6,2,5,5));
+		solverContain.setLayout(new GridLayout(7,2,5,5));
 		solverContain.add(txtDataHeader);
 		solverContain.add(new Label());
 		solverContain.add(txtSaveFileName);
@@ -162,6 +181,9 @@ public class CubeDisplay extends JFrame {
 		solverContain.add(listbMaxScrambles);
 		solverContain.add(txtMaxIterations);
 		solverContain.add(listbMaxIterations);
+		solverContain.add(new Label());
+		solverContain.add(chkScramble);
+		
 		solverContain.add(btnCreateDataSet);
 		solverContain.add(txtMessages);
 		
@@ -342,38 +364,43 @@ public class CubeDisplay extends JFrame {
 			Object e = event.getSource();
 			if(cube.checkConfig()) {
 				if(e==btnCW) {
-					cube.rotateFaceCW();
+					cubeMain.rotateFaceCW();
 					reDrawCube();			
 				}
 				else if(e==btnCCW){
-					cube.rotateFaceCCW();
+					cubeMain.rotateFaceCCW();
 					reDrawCube();
 				}
 				else if(e==btnUp){
-					cube.turnUp();
+					cubeMain.turnUp();
 					reDrawCube();
 				}
 				else if(e==btnDown){
-					cube.turnDown();
+					cubeMain.turnDown();
 					reDrawCube();
 				}
 				else if(e==btnLeft){
-					cube.turnLeft();
+					cubeMain.turnLeft();
 					reDrawCube();
 				}
 				else if(e==btnRight){
-					cube.turnRight();
+					cubeMain.turnRight();
 					reDrawCube();
 				}
 				else if(e==btnRand) {
-					cube.randomize(MAX_RAND_MOVES);
+					txtMoveList.setText(null);
+					
+					cubeMain.randomize(MAX_RAND_MOVES);
 					reDrawCube();
+					String str = cubeMain.getMoveList();
+					txtMoveList.setText(str);
 				}
 				else if(e==btnCreateDataSet) {
 					//max, scramble, iterations
-					DataSetCreationMain ds = new DataSetCreationMain(cubeMain, Integer.valueOf(listbMaxMoves.getText()),
+					isChkScramble = chkScramble.isSelected();
+					new DataSetCreationMain(cubeMain, Integer.valueOf(listbMaxMoves.getText()),
 							 Integer.valueOf(listbMaxScrambles.getText()),  Integer.valueOf(listbMaxIterations.getText()),
-							 listbSaveFileName.getText(), txtMessages);
+							 listbSaveFileName.getText(), txtMessages, isChkScramble);
 				}
 			}
 			else {

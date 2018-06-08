@@ -3,8 +3,8 @@ import java.awt.EventQueue;
 
 public class CubeMain implements CubeInterface {
 	
-	private static CubeDisplay cubeDisp;
-	private static Cube cube;
+	private CubeDisplay cubeDisp;
+	private Cube cube;
 	    /*
 		 * 0,1,2
 		 * 3,4,5
@@ -31,12 +31,24 @@ public class CubeMain implements CubeInterface {
 		return cube.toString();
 	}
 
+	public String solvedCubeToString() {
+		char[][] c =  cube.createCharSolved();
+		String str = " ";
+		for (char[] face:c) {
+			for (char piece:face ) {
+				str += piece + ",";
+			}
+		}
+		return str;
+		
+	}
+	
 	public String cubeToString() {
 		char[][] c = (showCurrentState());
 		String str = " ";
 		for (char[] face:c) {
 			for (char piece:face ) {
-				str += piece + ", ";
+				str += piece + ",";
 			}
 		}
 		return str;
@@ -72,6 +84,7 @@ public class CubeMain implements CubeInterface {
 	}
 	
 	public void randomize(int rNum) {
+		clearMoveList();
 		cube.randomize(rNum);
 	}
 	

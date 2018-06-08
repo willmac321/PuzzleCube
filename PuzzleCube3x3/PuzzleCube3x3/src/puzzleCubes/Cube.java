@@ -352,8 +352,7 @@ public class Cube{
 		return newCube;
 	}
 		
-	protected Cube createSolvedCube() {
-		
+	protected char [][] createCharSolved(){
 		
 		char[][] test = new char[6][];
 		
@@ -375,7 +374,13 @@ public class Cube{
 		//char[][] arrBackFace = 5
 		test[5]=new char[]{'y','y','y','y','y','y','y','y','y'};
 		//Face front = new Face(arrFrontFace);
-
+		return test;
+	}
+	
+	protected Cube createSolvedCube() {
+		
+		char[][] test = createCharSolved();
+		
 		return new Cube(test[0],test[1],test[2],test[3],test[4],test[5]);
 	}
 	
