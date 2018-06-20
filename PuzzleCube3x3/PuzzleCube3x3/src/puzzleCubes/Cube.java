@@ -54,11 +54,14 @@ public class Cube{
 		Random rand = new Random();
 		
 		//move a min of 1 times and max of var times
-		int randTotalMoves = rand.nextInt((maxMoves-1) + 1) + 1;
+		int randTotalMoves = maxMoves; //rand.nextInt((maxMoves-1) + 1) + 1;
 		
 		
 		for(int i = 0; i < randTotalMoves; i++) {
 			int moveNum = rand.nextInt(6)+1;
+			while(isOppMove(moveNum, peekMove())) {
+				moveNum = rand.nextInt(6)+1;
+			}
 			newCube = intMove(newCube, moveNum);
 		}
 		char[][] temp = newCube.showCurrentState();
@@ -377,11 +380,46 @@ public class Cube{
 		return test;
 	}
 	
+	protected boolean isOppMove(int ranInt, String lastMove) {
+		boolean isOpposite = false;
+		
+		switch(ranInt) {
+			case 1:				
+				isOpposite = (lastMove  == "CCW" ? true : false);
+				break;
+			case 2:
+				isOpposite = (lastMove  == "CW" ? true : false);
+				break;
+			case 3:
+				isOpposite = (lastMove  == "D" ? true : false);
+				break;
+			case 4:
+				isOpposite = (lastMove  == "UP" ? true : false);
+				break;
+			case 5:
+				isOpposite = (lastMove  == "R" ? true : false);
+				break;
+			case 6:
+				isOpposite = (lastMove  == "L" ? true : false);
+				break;
+			default:
+				System.out.println("Error 418: I'm a little teapot");		
+		}		
+		return isOpposite;
+	}
+	
 	protected Cube createSolvedCube() {
 		
 		char[][] test = createCharSolved();
 		
 		return new Cube(test[0],test[1],test[2],test[3],test[4],test[5]);
+	}
+	
+	protected String peekMove() {
+		if (moves.size() >0 ) {
+			return moves.get(moves.size()-1);
+		}
+		return "";
 	}
 	
 	protected void pushMove(String str) {

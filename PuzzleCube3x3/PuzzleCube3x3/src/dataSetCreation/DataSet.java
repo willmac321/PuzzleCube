@@ -25,7 +25,7 @@ public class DataSet {
 		this.cube = cube;
 		//System.out.print(cube.toString());
 	}
-	
+	 
 	public void setScramble(int maxMoves) {
 		maxRandMoves=maxMoves;
 	}
