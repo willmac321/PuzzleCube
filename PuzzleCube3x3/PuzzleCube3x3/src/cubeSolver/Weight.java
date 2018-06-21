@@ -1,9 +1,14 @@
 package cubeSolver;
 
+import java.io.Serializable;
 import java.util.Random;
 
-class Weight {
+class Weight implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1556158443290792963L;
 	double[][] weight;
 	
 	public Weight(int row, int col) {

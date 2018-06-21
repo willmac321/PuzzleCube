@@ -1,6 +1,12 @@
 package cubeSolver;
 
-class OutputNode {
+import java.io.Serializable;
+
+class OutputNode implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7105856355764085532L;
 	double[] out;
 	double[] error;
 	double net;

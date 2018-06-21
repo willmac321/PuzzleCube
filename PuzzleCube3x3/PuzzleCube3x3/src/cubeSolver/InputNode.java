@@ -1,15 +1,22 @@
 package cubeSolver;
 
-class InputNode {
+import java.io.Serializable;
+
+class InputNode implements Serializable{
 	
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5355880092155121162L;
+	
 	int[] inputs;
 
 	
-	public InputNode(int size, char feature) {
+	public InputNode(int size, char[] feature) {
 			inputs = new int[size];
 		for(int i = 0; i < size; i++) {
-			inputs[i] = findIntFromFeature(feature);		
+			inputs[i] = findIntFromFeature(feature[i]);		
 		}
 	}
 	
