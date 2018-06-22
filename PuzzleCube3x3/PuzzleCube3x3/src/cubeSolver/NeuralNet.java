@@ -16,11 +16,13 @@ public class NeuralNet implements Serializable {
 	private NeuralNetNode[] nodes;
 	private int colorNum;
 	private double alpha;
+	private int moveNum;
 	
 	public NeuralNet(int colorNum, int moveNum, char[] inputArr, String[] outputArr, double alpha){
 		
 		this.colorNum = colorNum;
 		this.alpha = alpha;
+		this.moveNum = moveNum;
 		nodes = new NeuralNetNode[inputArr.length];
 		
 		createNodes(colorNum, moveNum, inputArr, outputArr, alpha);
@@ -48,6 +50,32 @@ public class NeuralNet implements Serializable {
 		}
 	}
 	
+	public String suggestMove(char[] inputArr) {
+		nextInput(inputArr);
+		double[] m = new double[moveNum];
+		int sum = 0;
+		String rv = "";
+		double max = 0;
+		
+		for(int i = 0; i < moveNum; i++) {
+			m[i] = 0;
+		}
+		
+		for(int i = 0; i < nodes.length; i++) {
+			sum++;
+			m[nodes[i].guessMove()] = (m[nodes[i].guessMove()] + 1 );
+		}
+		
+		for(int i = 0; i < m.length; i++) {
+			if (m[i] > max) {
+				max = m[i];
+				rv = nodes[i].getOutputString(i + 1);
+			}
+		}
+		
+		return rv; // + " with " + (double)Math.round(max / sum * 10000) / 100 + "% certainty";	
+	}
+	
 	private void createNodes(int colorNum, int moveNum, char[] inputArr, String[] outputArr, double alpha) {
 		
 		for(int i = 0; i < inputArr.length; i++) {
@@ -72,4 +100,5 @@ public class NeuralNet implements Serializable {
 		
 		return rv;
 	}
+
 }

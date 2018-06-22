@@ -53,6 +53,15 @@ public class NeuralNetNode implements Serializable{
 		return rv;
 	}
 	
+	public String getOutputString(int i) {
+		return outputs.getOutputString(i);
+	}
+	
+	public int guessMove() {
+		outputs.calcActivation(weights, inputs);		
+		return outputs.findIntFromFeature(outputs.findOutput()) - 1;
+	}
+	
 	public InputNode getInputs() {
 		return inputs;
 	}
