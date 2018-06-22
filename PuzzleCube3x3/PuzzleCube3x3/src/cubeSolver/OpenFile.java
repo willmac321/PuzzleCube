@@ -8,6 +8,7 @@ import java.io.IOException;
 class OpenFile {
 	
 	private String[] train;
+	private String fileName;
 	private BufferedReader br;
 	private int len;
 	private String csvSplit = ",";
@@ -18,7 +19,8 @@ class OpenFile {
 		br = null;
 		iLength = inputLength;
 		oLength = outputLength;
-		openFile(inFileName);
+		fileName = inFileName;
+		openFile(fileName);
 	}
 	
 	private void openFile(String inFile) {
@@ -36,6 +38,25 @@ class OpenFile {
 		}
 	}
 	
+	public int countLines() {
+		int rv = 0;
+		try {
+			while ((br.readLine()) != null) {
+				rv++;
+			}
+		
+			br.close();
+			openFile(fileName);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		return rv;
+	}
+	
 	public boolean readNextLine() {
 		boolean rv = false;
 		String line = "";
@@ -46,6 +67,7 @@ class OpenFile {
 			}
 			else {
 				train = null;
+				br.close();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -13,11 +13,12 @@ class InputNode implements Serializable{
 	int[] inputs;
 
 	
-	public InputNode(int size, char[] feature) {
+	public InputNode(int size, char feature) {
 			inputs = new int[size];
 		for(int i = 0; i < size; i++) {
-			inputs[i] = findIntFromFeature(feature[i]);		
+			inputs[i] = 0;		
 		}
+		inputs[findIntFromFeature(feature) - 1] = 1;
 	}
 	
 	private int findIntFromFeature(char feature) {

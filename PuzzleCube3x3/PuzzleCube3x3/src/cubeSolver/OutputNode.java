@@ -9,16 +9,20 @@ class OutputNode implements Serializable {
 	private static final long serialVersionUID = -7105856355764085532L;
 	double[] out;
 	double[] error;
+	double[] desiredOut;
 	double net;
 	double alpha;
 	int size;
 	
-	public OutputNode(double learningConst, int size) {
+	public OutputNode(double learningConst, int size, String[] desiredOut) {
 		alpha = learningConst;
 		this.size = size;
 		net = 0;
 		out = new double[size];
 		error = new double[size];
+		this.desiredOut = new double[size];
+		toDoubleArr(desiredOut, size);
+	
 	}
 	
 	public double[] calcActivation(Weight weight, InputNode input) {
@@ -40,7 +44,7 @@ class OutputNode implements Serializable {
 		double[][] dw = new double[weight.getSizeRow()][weight.getSizeCol(0)];
 		for(int i = 0; i < dw.length; i++) {
 			for(int j = 0; j < dw[0].length; j++) {
-				dw[i][j] = alpha * ( (i + 1) - out[i]) * out[i] * (1 - out[i]) * input.getInput(j); 
+				dw[i][j] = alpha * ( (desiredOut[i]) - out[i]) * out[i] * (1 - out[i]) * input.getInput(j); 
 			}
 		}
 		return dw;	
@@ -57,10 +61,32 @@ class OutputNode implements Serializable {
 	public double calcMSE() {
 		double rv = 0;
 		for(int j = 0; j < error.length; j++) {
-			error[j] = Math.pow((j - out[j]),2);
+			error[j] = Math.pow((desiredOut[j] - out[j]),2);
 			rv += error[j];
 		}
 		return rv;
+	}
+	
+	public String findOutput() {
+		double test = 0;
+		int c = 0;
+		for(int i = 0; i < size; i++) {
+//			System.out.println(i + ": " + d);
+//			i++;
+			double nTest  = out[i];
+			if( nTest > test) {
+				test = nTest;
+				c = i + 1;
+			}
+		}
+		return getOutputString(c);
+	}
+	
+	private void toDoubleArr(String[] str, int num) {
+		for(int i = 0; i < num; i++) {
+			desiredOut[i] = 0;
+		}		
+		desiredOut[findIntFromFeature(str[0]) - 1] = 1;
 	}
 	
 	public int findIntFromFeature(String feature) {
@@ -90,7 +116,7 @@ class OutputNode implements Serializable {
 		return rv;
 	}
 	
-	public String getOutput(int i) {
+	public String getOutputString(int i) {
 		String str = "";
 		switch(i) {
 		case 1:
@@ -123,5 +149,9 @@ class OutputNode implements Serializable {
 	
 	public double getAlpha() {
 		return alpha;
+	}
+	
+	public double[] getOutput() {
+		return out;
 	}
 }
